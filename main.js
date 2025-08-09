@@ -9,19 +9,27 @@ class StartMenuScene extends Phaser.Scene {
         this.add.image(this.scale.width / 2, this.scale.height / 2, 'startBg')
             .setDisplaySize(this.scale.width, this.scale.height);
 
-        // Judul game
-        let title = this.add.text(this.scale.width / 2, this.scale.height / 2 - 150, 'Eth OS', {
-            fontSize: '64px',
-            fontStyle: 'bold',
-            fill: '#fff',
-            stroke: '#000',
-            strokeThickness: 8
-        }).setOrigin(0.5);
+        // === Judul game "EthOS" dengan font & warna seperti logo ===
+        let baseY = this.scale.height / 2 - 150;
 
-        // Animasi judul (naik turun pelan)
+        let titleEth = this.add.text(this.scale.width / 2 - 50, baseY, 'Eth', {
+            fontFamily: 'Merriweather, serif',
+            fontSize: '80px',
+            fontStyle: 'bold',
+            fill: '#000000'
+        }).setOrigin(1, 0.5);
+
+        let titleOS = this.add.text(this.scale.width / 2 - 50, baseY, 'OS', {
+            fontFamily: 'Merriweather, serif',
+            fontSize: '80px',
+            fontStyle: 'bold',
+            fill: '#7393e0'
+        }).setOrigin(0, 0.5);
+
+        // Animasi
         this.tweens.add({
-            targets: title,
-            y: title.y - 10,
+            targets: [titleEth, titleOS],
+            y: baseY - 10,
             duration: 1000,
             yoyo: true,
             repeat: -1
@@ -52,6 +60,8 @@ class StartMenuScene extends Phaser.Scene {
         }).setOrigin(0.5);
     }
 }
+
+// start
 
 class GameScene extends Phaser.Scene {
     constructor() { super('GameScene'); }
