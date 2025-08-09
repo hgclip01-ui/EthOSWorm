@@ -26,7 +26,7 @@ class StartMenuScene extends Phaser.Scene {
         }).setOrigin(1, 0.5);
 
         let titleOS = this.add.text(this.scale.width / 2 - 0, baseY, 'OS', {
-            fontFamily: 'Merriweather, serif',
+            fontFamily: '"Press Start 2P", monospace',
             fontSize: '80px',
             fontStyle: 'bold',
             fill: '#7393e0'
@@ -231,6 +231,7 @@ class GameOverScene extends Phaser.Scene {
             .setAlpha(0.5); // sedikit transparan
 
         let title = this.add.text(this.scale.width / 2, this.scale.height / 2 - 150, 'GAME OVER', {
+            fontFamily: '"Press Start 2P", monospace',
             fontSize: '64px',
             fontStyle: 'bold',
             fill: '#f00',
@@ -251,6 +252,7 @@ class GameOverScene extends Phaser.Scene {
         let highScore = localStorage.getItem('wormHighScore') || 0;
         this.add.text(this.scale.width / 2, this.scale.height / 2 - 50,
             `Score: ${this.finalScore}\nHigh Score: ${highScore}`, {
+                fontFamily: '"Press Start 2P", monospace',
                 fontSize: '28px',
                 fill: '#fff',
                 align: 'center'
