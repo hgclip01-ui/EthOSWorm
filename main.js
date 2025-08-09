@@ -19,7 +19,7 @@ class StartMenuScene extends Phaser.Scene {
         let baseY = startButtonY - 80; // jarak 80px di atas tombol
 
         let titleEth = this.add.text(this.scale.width / 2 - 0, baseY, 'Eth', {
-            fontFamily: 'Press Start 2P',
+            ,
             fontSize: '80px',
             fontStyle: 'bold',
             fill: '#000000'
