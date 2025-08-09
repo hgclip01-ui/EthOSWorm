@@ -18,14 +18,14 @@ class StartMenuScene extends Phaser.Scene {
         let startButtonY = this.scale.height / 2 + 50;
         let baseY = startButtonY - 80; // jarak 80px di atas tombol
 
-        let titleEth = this.add.text(this.scale.width / 2 - 150, baseY, 'Eth', {
+        let titleEth = this.add.text(this.scale.width / 2 - 0, baseY, 'Eth', {
             fontFamily: 'Merriweather, serif',
             fontSize: '80px',
             fontStyle: 'bold',
             fill: '#000000'
         }).setOrigin(1, 0.5);
 
-        let titleOS = this.add.text(this.scale.width / 2 - 150, baseY, 'OS', {
+        let titleOS = this.add.text(this.scale.width / 2 - 0, baseY, 'OS', {
             fontFamily: 'Merriweather, serif',
             fontSize: '80px',
             fontStyle: 'bold',
