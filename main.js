@@ -18,7 +18,7 @@ class StartMenuScene extends Phaser.Scene {
         let startButtonY = this.scale.height / 2 + 50;
         let baseY = startButtonY - 80; 
 
-        let titleEth = this.add.text(this.scale.width / 2 + 0, baseY, 'Eth', {
+        let titleEth = this.add.text(this.scale.width / 2 + 50, baseY, 'Eth', {
             fontFamily: '"Press Start 2P", monospace',
             fontSize: '80px',
             fontStyle: 'bold',
@@ -27,7 +27,7 @@ class StartMenuScene extends Phaser.Scene {
     strokeThickness: 6
         }).setOrigin(1, 0.5);
 
-        let titleOS = this.add.text(this.scale.width / 2 + 0, baseY, 'OS', {
+        let titleOS = this.add.text(this.scale.width / 2 + 50, baseY, 'OS', {
             fontFamily: '"Press Start 2P", monospace',
             fontSize: '80px',
             fontStyle: 'bold',
