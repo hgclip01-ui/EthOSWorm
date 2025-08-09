@@ -101,7 +101,13 @@ class GameScene extends Phaser.Scene {
         this.food = this.add.sprite(0, 0, 'food');
         this.placeFood();
 
-        this.scoreText = this.add.text(10, 10, 'Score: 0', { fontSize: '24px', fill: '#fff' });
+        this.scoreText = this.add.text(10, 10, 'Score: 0', { 
+            fontFamily: '"Press Start 2P", monospace',
+            fontSize: '24px', 
+            fill: '#fff', 
+        stroke: '#8B4513',
+    strokeThickness: 6
+        });
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
