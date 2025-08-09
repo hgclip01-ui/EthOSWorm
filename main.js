@@ -7,9 +7,7 @@ class StartMenuScene extends Phaser.Scene {
     create() {
         this.add.image(this.scale.width / 2, this.scale.height / 2, 'startBg')
             .setDisplaySize(this.scale.width, this.scale.height);
-
-        this.add.text(this.scale.width / 2, this.scale.height / 2 - 100, 'WORM GAME',
-            { fontSize: '48px', fill: '#fff' }).setOrigin(0.5);
+        {
 
         this.add.image(this.scale.width / 2, this.scale.height / 2 + 50, 'startBtn')
             .setInteractive()
@@ -37,19 +35,17 @@ class GameScene extends Phaser.Scene {
         this.moveTimer = 0;
         this.score = 0;
         this.alive = true;
-
-        // Posisi start di tengah grid
+        
         const startX = Math.floor(this.scale.width / (2 * this.cellSize)) * this.cellSize;
         const startY = Math.floor(this.scale.height / (2 * this.cellSize)) * this.cellSize;
 
-        // Snake awal (kepala di atas)
+        
         this.snake = [];
         let head = this.add.sprite(startX, startY, 'head').setDepth(1);
         let body1 = this.add.sprite(startX - this.cellSize, startY, 'body');
         let tail = this.add.sprite(startX - this.cellSize * 2, startY, 'tail');
         this.snake.push(head, body1, tail);
 
-        // Makanan
         this.food = this.add.sprite(0, 0, 'food');
         this.placeFood();
 
@@ -100,25 +96,25 @@ class GameScene extends Phaser.Scene {
         else if (this.direction === 'UP') newY -= this.speed;
         else if (this.direction === 'DOWN') newY += this.speed;
 
-        // Cek tabrakan dinding
+       
         if (newX < 0 || newX >= this.scale.width || newY < 0 || newY >= this.scale.height) {
             this.gameOver();
             return;
         }
 
-        // Pindahkan body
+        
         for (let i = this.snake.length - 1; i > 0; i--) {
             this.snake[i].x = this.snake[i - 1].x;
             this.snake[i].y = this.snake[i - 1].y;
             this.snake[i].angle = this.snake[i - 1].angle;
         }
 
-        // Update posisi head (tetap di atas)
+        
         head.x = newX;
         head.y = newY;
         head.setDepth(1);
 
-        // Rotasi head
+        
         if (this.direction === 'LEFT') head.angle = 180;
         else if (this.direction === 'RIGHT') head.angle = 0;
         else if (this.direction === 'UP') head.angle = -90;
@@ -128,7 +124,7 @@ class GameScene extends Phaser.Scene {
             this.snake[i].angle = this.snake[i - 1].angle;
         }
 
-        // Cek tabrakan dengan tubuh
+        
         for (let i = 1; i < this.snake.length; i++) {
             if (head.x === this.snake[i].x && head.y === this.snake[i].y) {
                 this.gameOver();
@@ -136,7 +132,7 @@ class GameScene extends Phaser.Scene {
             }
         }
 
-        // Cek makan food
+        
         if (head.x === this.food.x && head.y === this.food.y) {
             let newSegment = this.add.sprite(
                 this.snake[this.snake.length - 1].x,
@@ -186,9 +182,7 @@ class GameOverScene extends Phaser.Scene {
     create() {
         this.add.image(this.scale.width / 2, this.scale.height / 2, 'bg')
             .setDisplaySize(this.scale.width, this.scale.height);
-
-        this.add.text(this.scale.width / 2, this.scale.height / 2 - 100, 'GAME OVER',
-            { fontSize: '48px', fill: '#f00' }).setOrigin(0.5);
+        {
 
         this.add.text(this.scale.width / 2, this.scale.height / 2, 'Score: ' + this.finalScore,
             { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
