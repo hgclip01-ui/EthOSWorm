@@ -5,34 +5,38 @@ class StartMenuScene extends Phaser.Scene {
         this.load.image('startBtn', 'assets/start-button.png');
     }
     create() {
-        // Background
+        
         this.add.image(this.scale.width / 2, this.scale.height / 2, 'startBg')
             .setDisplaySize(this.scale.width, this.scale.height);
 
-        // Tombol start
+        
         let startButton = this.add.image(this.scale.width / 2, this.scale.height / 2 + 50, 'startBtn')
             .setInteractive()
             .setScale(1);
 
-        // === Judul game "EthOS" dekat tombol start ===
+        
         let startButtonY = this.scale.height / 2 + 50;
-        let baseY = startButtonY - 80; // jarak 80px di atas tombol
+        let baseY = startButtonY - 80; 
 
         let titleEth = this.add.text(this.scale.width / 2 - 0, baseY, 'Eth', {
             fontFamily: '"Press Start 2P", monospace',
             fontSize: '80px',
             fontStyle: 'bold',
-            fill: '#000000'
+            fill: '#000000', 
+            stroke: '#8B4513',
+    strokeThickness: 6
         }).setOrigin(1, 0.5);
 
         let titleOS = this.add.text(this.scale.width / 2 - 0, baseY, 'OS', {
             fontFamily: '"Press Start 2P", monospace',
             fontSize: '80px',
             fontStyle: 'bold',
-            fill: '#7393e0'
+            fill: '#7393e0', 
+            stroke: '#8B4513',
+    strokeThickness: 6
         }).setOrigin(0, 0.5);
 
-        // Animasi naik-turun lembut
+        // Animasi
         this.tweens.add({
             targets: [titleEth, titleOS],
             y: baseY - 5,
@@ -41,7 +45,7 @@ class StartMenuScene extends Phaser.Scene {
             repeat: -1
         });
 
-        // Animasi hover tombol
+        
         startButton.on('pointerover', () => {
             this.tweens.add({ targets: startButton, scale: 1.1, duration: 200 });
         });
@@ -49,12 +53,12 @@ class StartMenuScene extends Phaser.Scene {
             this.tweens.add({ targets: startButton, scale: 1, duration: 200 });
         });
 
-        // Klik tombol
+        
         startButton.on('pointerdown', () => {
             this.scene.start('GameScene');
         });
 
-        // Info kontrol
+        
         this.add.text(this.scale.width / 2, this.scale.height - 50, 'Swipe atau gunakan tombol panah untuk bermain', {
             fontSize: '18px',
             fill: '#fff'
@@ -62,7 +66,7 @@ class StartMenuScene extends Phaser.Scene {
     }
 }
 
-// ==== GameScene dan GameOverScene tetap sama seperti punyamu ====
+
 
 class GameScene extends Phaser.Scene {
     constructor() { super('GameScene'); }
@@ -228,7 +232,7 @@ class GameOverScene extends Phaser.Scene {
     create() {
         this.add.image(this.scale.width / 2, this.scale.height / 2, 'bg')
             .setDisplaySize(this.scale.width, this.scale.height)
-            .setAlpha(0.5); // sedikit transparan
+            .setAlpha(0.5); 
 
         let title = this.add.text(this.scale.width / 2, this.scale.height / 2 - 150, 'GAME OVER', {
             fontFamily: '"Press Start 2P", monospace',
@@ -248,7 +252,7 @@ class GameOverScene extends Phaser.Scene {
             repeat: -1
         });
 
-        // Skor akhir & high score
+        
         let highScore = localStorage.getItem('wormHighScore') || 0;
         this.add.text(this.scale.width / 2, this.scale.height / 2 - 50,
             `Score: ${this.finalScore}\nHigh Score: ${highScore}`, {
@@ -258,14 +262,14 @@ class GameOverScene extends Phaser.Scene {
                 align: 'center'
             }).setOrigin(0.5);
 
-        // Tombol restart
+        
         let restartButton = this.add.image(this.scale.width / 2, this.scale.height / 2 + 50, 'restartBtn')
             .setInteractive();
         restartButton.on('pointerdown', () => {
             this.scene.start('GameScene');
         });
 
-        // Tombol kembali ke menu
+        
         let menuButton = this.add.image(this.scale.width / 2, this.scale.height / 2 + 150, 'menuBtn')
             .setInteractive();
         menuButton.on('pointerdown', () => {
