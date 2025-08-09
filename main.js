@@ -5,13 +5,51 @@ class StartMenuScene extends Phaser.Scene {
         this.load.image('startBtn', 'assets/start-button.png');
     }
     create() {
+        // Background
         this.add.image(this.scale.width / 2, this.scale.height / 2, 'startBg')
             .setDisplaySize(this.scale.width, this.scale.height);
-        {
 
-        this.add.image(this.scale.width / 2, this.scale.height / 2 + 50, 'startBtn')
+        // Judul game
+        let title = this.add.text(this.scale.width / 2, this.scale.height / 2 - 150, 'Eth OS', {
+            fontSize: '64px',
+            fontStyle: 'bold',
+            fill: '#fff',
+            stroke: '#000',
+            strokeThickness: 8
+        }).setOrigin(0.5);
+
+        // Animasi judul (naik turun pelan)
+        this.tweens.add({
+            targets: title,
+            y: title.y - 10,
+            duration: 1000,
+            yoyo: true,
+            repeat: -1
+        });
+
+        // Tombol start
+        let startButton = this.add.image(this.scale.width / 2, this.scale.height / 2 + 50, 'startBtn')
             .setInteractive()
-            .on('pointerdown', () => this.scene.start('GameScene'));
+            .setScale(1);
+
+        // Animasi hover tombol
+        startButton.on('pointerover', () => {
+            this.tweens.add({ targets: startButton, scale: 1.1, duration: 200 });
+        });
+        startButton.on('pointerout', () => {
+            this.tweens.add({ targets: startButton, scale: 1, duration: 200 });
+        });
+
+        // Klik tombol
+        startButton.on('pointerdown', () => {
+            this.scene.start('GameScene');
+        });
+
+        // Info kontrol
+        this.add.text(this.scale.width / 2, this.scale.height - 50, 'Swipe atau gunakan tombol panah untuk bermain', {
+            fontSize: '18px',
+            fill: '#fff'
+        }).setOrigin(0.5);
     }
 }
 
@@ -35,11 +73,10 @@ class GameScene extends Phaser.Scene {
         this.moveTimer = 0;
         this.score = 0;
         this.alive = true;
-        
+
         const startX = Math.floor(this.scale.width / (2 * this.cellSize)) * this.cellSize;
         const startY = Math.floor(this.scale.height / (2 * this.cellSize)) * this.cellSize;
 
-        
         this.snake = [];
         let head = this.add.sprite(startX, startY, 'head').setDepth(1);
         let body1 = this.add.sprite(startX - this.cellSize, startY, 'body');
@@ -49,8 +86,7 @@ class GameScene extends Phaser.Scene {
         this.food = this.add.sprite(0, 0, 'food');
         this.placeFood();
 
-        this.scoreText = this.add.text(0.1, 0.1, 'Score: 0',
-            { fontSize: '24px', fill: '#fff' });
+        this.scoreText = this.add.text(10, 10, 'Score: 0', { fontSize: '24px', fill: '#fff' });
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -96,25 +132,21 @@ class GameScene extends Phaser.Scene {
         else if (this.direction === 'UP') newY -= this.speed;
         else if (this.direction === 'DOWN') newY += this.speed;
 
-       
         if (newX < 0 || newX >= this.scale.width || newY < 0 || newY >= this.scale.height) {
             this.gameOver();
             return;
         }
 
-        
         for (let i = this.snake.length - 1; i > 0; i--) {
             this.snake[i].x = this.snake[i - 1].x;
             this.snake[i].y = this.snake[i - 1].y;
             this.snake[i].angle = this.snake[i - 1].angle;
         }
 
-        
         head.x = newX;
         head.y = newY;
         head.setDepth(1);
 
-        
         if (this.direction === 'LEFT') head.angle = 180;
         else if (this.direction === 'RIGHT') head.angle = 0;
         else if (this.direction === 'UP') head.angle = -90;
@@ -124,7 +156,6 @@ class GameScene extends Phaser.Scene {
             this.snake[i].angle = this.snake[i - 1].angle;
         }
 
-        
         for (let i = 1; i < this.snake.length; i++) {
             if (head.x === this.snake[i].x && head.y === this.snake[i].y) {
                 this.gameOver();
@@ -132,7 +163,6 @@ class GameScene extends Phaser.Scene {
             }
         }
 
-        
         if (head.x === this.food.x && head.y === this.food.y) {
             let newSegment = this.add.sprite(
                 this.snake[this.snake.length - 1].x,
@@ -167,6 +197,10 @@ class GameScene extends Phaser.Scene {
     }
 
     gameOver() {
+        let highScore = localStorage.getItem('wormHighScore') || 0;
+        if (this.score > highScore) {
+            localStorage.setItem('wormHighScore', this.score);
+        }
         this.alive = false;
         this.scene.start('GameOverScene', { score: this.score });
     }
@@ -178,18 +212,52 @@ class GameOverScene extends Phaser.Scene {
     preload() {
         this.load.image('bg', 'assets/background.png');
         this.load.image('restartBtn', 'assets/restart-button.png');
+        this.load.image('menuBtn', 'assets/start-button.png');
     }
     create() {
         this.add.image(this.scale.width / 2, this.scale.height / 2, 'bg')
-            .setDisplaySize(this.scale.width, this.scale.height);
-        {
+            .setDisplaySize(this.scale.width, this.scale.height)
+            .setAlpha(0.5); // sedikit transparan
 
-        this.add.text(this.scale.width / 2, this.scale.height / 2, 'Score: ' + this.finalScore,
-            { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+        let title = this.add.text(this.scale.width / 2, this.scale.height / 2 - 150, ' ', {
+            fontSize: '64px',
+            fontStyle: 'bold',
+            fill: '#f00',
+            stroke: '#000',
+            strokeThickness: 8
+        }).setOrigin(0.5);
 
-        this.add.image(this.scale.width / 2, this.scale.height / 2 + 100, 'restartBtn')
-            .setInteractive()
-            .on('pointerdown', () => this.scene.start('StartMenu'));
+        // Efek berkedip
+        this.tweens.add({
+            targets: title,
+            alpha: 0.5,
+            duration: 500,
+            yoyo: true,
+            repeat: -1
+        });
+
+        // Skor akhir & high score
+        let highScore = localStorage.getItem('wormHighScore') || 0;
+        this.add.text(this.scale.width / 2, this.scale.height / 2 - 50,
+            `Score: ${this.finalScore}\nHigh Score: ${highScore}`, {
+                fontSize: '28px',
+                fill: '#fff',
+                align: 'center'
+            }).setOrigin(0.5);
+
+        // Tombol restart
+        let restartButton = this.add.image(this.scale.width / 2, this.scale.height / 2 + 50, 'restartBtn')
+            .setInteractive();
+        restartButton.on('pointerdown', () => {
+            this.scene.start('GameScene');
+        });
+
+        // Tombol kembali ke menu
+        let menuButton = this.add.image(this.scale.width / 2, this.scale.height / 2 + 150, 'menuBtn')
+            .setInteractive();
+        menuButton.on('pointerdown', () => {
+            this.scene.start('StartMenu');
+        });
     }
 }
 
