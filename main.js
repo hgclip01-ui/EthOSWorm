@@ -26,7 +26,7 @@ class StartMenuScene extends Phaser.Scene {
         }).setOrigin(1, 0.5);
 
         let titleOS = this.add.text(this.scale.width / 2 - 0, baseY, 'OS', {
-            fontFamily: 'Press Start 2P',
+            fontFamily: '32px Press Start 2P',
             fontSize: '80px',
             fontStyle: 'bold',
             fill: '#7393e0'
